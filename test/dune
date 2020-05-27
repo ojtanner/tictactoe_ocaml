@@ -1,0 +1,3 @@
+(test
+ (name tictactoe_ocaml)
+ (libraries tictactoe oUnit))
