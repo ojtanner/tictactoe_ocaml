@@ -4,3 +4,5 @@ open Game
 
 (** [render_game_state state] renders the game-state to the cli.*)
 val render_game_state : state -> unit
+
+val insert : string list -> string -> string list
