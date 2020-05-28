@@ -7,4 +7,4 @@ let next_state = Game.execute_turn
     (Game.tuple_to_field_coordinates_exn (1,1))
 
 let () =
-  Cli.print_playing_field next_state.playing_field
+  Cli.render_game_state next_state

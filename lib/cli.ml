@@ -1,5 +1,6 @@
 open Base
 open Core
+open Game
 
 let row_to_string (row : int list) =
   let delimiter = "|" in
@@ -35,3 +36,6 @@ let print_playing_field playing_field =
   let rows = String.concat ~sep:separator rows in
   print_string (top_bottom_separator ^ rows ^ top_bottom_separator)
 ;;
+
+let render_game_state state =
+  print_playing_field state.playing_field
