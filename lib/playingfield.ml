@@ -1,6 +1,9 @@
-open Base
 open Core
-open Game
+
+type t = int list list
+
+let create () =
+  List.init 3 ~f:(fun _ -> List.init 3 ~f:(fun _ -> 0))
 
 let row_to_string (row : int list) =
   let delimiter = "|" in
@@ -34,9 +37,9 @@ let rec insert l str =
   | hd :: tl -> hd :: str :: insert tl str
 ;;
 
-let generate_rows_with_inner_separator playing_field =
-  let rows_as_strings = rows_to_string playing_field in
-  let first_row = List.nth playing_field 0 in
+let generate_rows_with_inner_separator t =
+  let rows_as_strings = rows_to_string t in
+  let first_row = List.nth t 0 in
   match first_row with
   | Some row ->
     let innner_separator = generate_separator row "+" in
@@ -44,22 +47,12 @@ let generate_rows_with_inner_separator playing_field =
   | None -> []
 ;;
 
-let playing_field_to_string_list playing_field =
-  let first_row = List.nth playing_field 0 in
+let to_list t =
+  let first_row = List.nth t 0 in
   match first_row with
   | Some row ->
     let outer_separator = generate_separator row "|" in
-    let inner_string_list = generate_rows_with_inner_separator playing_field in
+    let inner_string_list = generate_rows_with_inner_separator t in
     [ outer_separator ] @ inner_string_list @ [ outer_separator ]
   | None -> [ "Empty Field passed \n" ]
 ;;
-
-let print_playing_field ?(indent = 0) playing_field =
-  let playing_field = playing_field_to_string_list playing_field in
-  List.iter playing_field ~f:(fun row -> print_string (String.make indent '\t' ^ row))
-;;
-
-(*****************************************************************************)
-(*****************************************************************************)
-(*****************************************************************************)
-let render_game_state state = print_playing_field state.playing_field ~indent:2
