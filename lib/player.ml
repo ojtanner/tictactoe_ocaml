@@ -6,4 +6,4 @@ type t =
 let to_string = function
   | X -> "X"
   | O -> "O"
-  | None -> "None"
+  | None -> " "
