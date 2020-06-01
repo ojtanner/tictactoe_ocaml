@@ -1,3 +1,5 @@
+open Core
+
 type t =
   { playing_field : Playingfield.t
   ; current_player : Player.t
@@ -11,12 +13,23 @@ let create () =
   }
 ;;
 
-let to_list t =
-  let top_row = ["\n\n*** Placeholder ***\n\n"] in
-  let playing_field = Playingfield.to_list t.playing_field in
-  let bottom_row = ["\n\n*** Placeholder ***\n\n"] in
-  top_row @ playing_field @ bottom_row
+let info t =
+  let open Player in
+  let current_player = to_string t.current_player in
+  let current_winner = to_string t.winner in
+  [ "\n\n*** Game-Info: ***\n------------------\n"
+    ^ sprintf "Next player: %s\n" current_player
+    ^ sprintf "Winner: %s\n" current_winner
+    ^ "\n"
+  ]
+;;
 
+let to_list t =
+  let top_row = info t in
+  let playing_field = Playingfield.to_list t.playing_field in
+  let bottom_row = [ "\n\n*** Placeholder ***\n\n" ] in
+  top_row @ playing_field @ bottom_row
+;;
 
 let switch_player state =
   let open Player in
@@ -36,3 +49,4 @@ let execute_turn t coord =
   let updated_playing_field = assoc coord current_player playing_field in
   let t = { t with playing_field = updated_playing_field } in
   switch_player t
+;;

@@ -13,12 +13,12 @@ let int_to_n num =
 let from_int x y =
   let x_error =
     if x < 1 || x > 3
-    then sprintf "X outside of field, must be between 1 and 3 but is %i" x
+    then sprintf "X outside of field, must be between 1 and 3 but is %i\n" x
     else ""
   in
   let y_error =
     if y < 1 || y > 3
-    then sprintf "Y outside of field, must be between 1 and 3 but is %i" x
+    then sprintf "Y outside of field, must be between 1 and 3 but is %i\n" x
     else ""
   in
   let coord_error = x_error ^ y_error in

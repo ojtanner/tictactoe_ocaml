@@ -20,7 +20,7 @@ let update n data (first, second, third) =
   let open Fieldcoordinates in
   match n with
   | First -> (data, second, third)
-  | Second -> (first, second, third)
+  | Second -> (first, data, third)
   | Third -> (first, second, data)
 
 let view coord t =
