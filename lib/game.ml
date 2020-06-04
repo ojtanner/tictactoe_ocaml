@@ -31,15 +31,15 @@ let to_list t =
   top_row @ playing_field @ bottom_row
 ;;
 
-let switch_player state =
+let switch_player t =
   let open Player in
-  match state.winner with
+  match t.winner with
   | None ->
-    (match state.current_player with
-    | None -> state
-    | X -> { state with current_player = O }
-    | O -> { state with current_player = X })
-  | X | O -> { state with current_player = None }
+    (match t.current_player with
+    | None -> t
+    | X -> { t with current_player = O }
+    | O -> { t with current_player = X })
+  | X | O -> { t with current_player = None }
 ;;
 
 let execute_turn t coord =
