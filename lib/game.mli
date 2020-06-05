@@ -3,6 +3,10 @@ type t
 (** [create ()] creates a new game-state. *)
 val create : unit -> t
 
+val get_winner : t -> Player.t
+
+val get_current_player : t -> Player.t
+
 (** [to_list t] takes the state t of a game and converts that state to a list of strings that can be printed. *)
 val to_list : t -> string list
 
