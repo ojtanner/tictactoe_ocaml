@@ -36,10 +36,11 @@ let game_tests =
          and t2 = from_int 2 1
          and t3 = from_int 1 2
          and t4 = from_int 2 2
-         and t5 = from_int 1 3 in
+         and t5 = from_int 1 3
+         and t6 = from_int 2 2 in
          let actual_winner =
-           match t1, t2, t3, t4, t5 with
-           | Ok t1, Ok t2, Ok t3, Ok t4, Ok t5 ->
+           match t1, t2, t3, t4, t5, t6 with
+           | Ok t1, Ok t2, Ok t3, Ok t4, Ok t5, Ok t6 ->
              print_game game;
              let turn1 = execute_turn game t1 in
              print_game turn1;
@@ -51,8 +52,10 @@ let game_tests =
              print_game turn4;
              let turn5 = execute_turn turn4 t5 in
              print_game turn5;
-             get_winner turn5
-           | _, _, _, _, _ -> None
+             let turn6 = execute_turn turn5 t6 in
+             print_game turn6;
+             get_winner turn6
+           | _, _, _, _, _, _ -> None
          in
          assert_equal expected_winner actual_winner)
        ]

@@ -6,11 +6,8 @@ type t =
   ; winner : Player.t
   }
 
-let get_winner t =
-  t.winner
-
-let get_current_player t =
-  t.current_player
+let get_winner t = t.winner
+let get_current_player t = t.current_player
 
 let create () =
   { playing_field = Playingfield.create ()
@@ -23,17 +20,18 @@ let info t =
   let open Player in
   let current_player = to_string t.current_player in
   let current_winner = to_string t.winner in
-  [ "\n\n*** Game-Info: ***\n------------------\n"
-    ^ sprintf "Next player: %s\n" current_player
-    ^ sprintf "Winner: %s\n" current_winner
-    ^ "\n"
+  [ "*** Game-Info: ***\n"
+  ; "------------------\n"
+  ; sprintf "Next player: %s\n" current_player
+  ; sprintf "Winner: %s\n" current_winner
+  ; "\n"
   ]
 ;;
 
 let to_list t =
   let top_row = info t in
   let playing_field = Playingfield.to_list t.playing_field in
-  let bottom_row = [ "\n\n*** Placeholder ***\n\n" ] in
+  let bottom_row = [ "*** Placeholder ***\n\n" ] in
   top_row @ playing_field @ bottom_row
 ;;
 
@@ -61,9 +59,7 @@ let check_row_for_winner y t =
     let first_el = view a playingfield
     and second_el = view b playingfield
     and third_el = view c playingfield in
-    if (equal first_el second_el) && (equal second_el third_el)
-    then first_el
-    else None
+    if equal first_el second_el && equal second_el third_el then first_el else None
   | _, _, _ -> None
 ;;
 
@@ -80,9 +76,7 @@ let check_column_for_winner x t =
     let first_el = view a playingfield
     and second_el = view b playingfield
     and third_el = view c playingfield in
-    if (equal first_el second_el) && (equal second_el third_el)
-    then first_el
-    else None
+    if equal first_el second_el && equal second_el third_el then first_el else None
   | _, _, _ -> None
 ;;
 
@@ -105,9 +99,9 @@ let check_diagonals_for_winner t =
     and right_upper_el = view ru playingfield
     and right_lower_el = view rl playingfield
     and middle_el = view m playingfield in
-    if (equal left_upper_el middle_el) && (equal middle_el right_lower_el)
+    if equal left_upper_el middle_el && equal middle_el right_lower_el
     then left_upper_el
-    else if (equal right_upper_el middle_el) && (equal middle_el left_lower_el)
+    else if equal right_upper_el middle_el && equal middle_el left_lower_el
     then right_upper_el
     else None
   | _, _, _, _, _ -> None
@@ -123,8 +117,6 @@ let determine_winner t =
   and col_3 = check_column_for_winner 3 t
   and diags = check_diagonals_for_winner t in
   let res = [ row_1; row_2; row_3; col_1; col_2; col_3; diags ] in
-  let str = List.map res ~f:(fun el -> to_string el) in
-  List.iter str ~f:(fun el -> print_string el);
   let winner_list = List.filter res ~f:(fun el -> not (equal el None)) in
   match List.length winner_list with
   | 0 -> None
