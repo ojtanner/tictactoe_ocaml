@@ -15,8 +15,7 @@ let render_game ?(padding = 1) game_state =
 
 let rec loop game_state =
   render_game game_state;
-  let winner = get_winner game_state in
-  match winner with
+  match get_winner game_state with
   | (X | O) as winner ->
     let message = sprintf "%s won. Congratulations!\n\n" (to_string winner) in
     render_message message
@@ -41,10 +40,12 @@ let rec loop game_state =
            (match turn_coords with
            | Ok coord -> loop (execute_turn game_state coord)
            | Error msg ->
-             printf "%s" msg;
+             let message = sprintf "%s" msg in
+             render_message message;
              loop game_state)
          | _ ->
-           printf "Please enter two spaced out integers\n";
+           let message = sprintf "Please enter two spaced out integers\n" in
+           render_message message;
            loop game_state
        with
       | Failure _ ->
