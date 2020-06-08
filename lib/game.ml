@@ -20,10 +20,12 @@ let info t =
   let open Player in
   let current_player = to_string t.current_player in
   let current_winner = to_string t.winner in
-  [ "*** Game-Info: ***\n"
-  ; "------------------\n"
-  ; sprintf "Next player: %s\n" current_player
-  ; sprintf "Winner: %s\n" current_winner
+  [ "\n"
+  ; "** Turn ~: **\n"
+  ; "-------------\n"
+  ; sprintf "| Player: %s |\n" current_player
+  ; sprintf "| Winner: %s |\n" current_winner
+  ; "~~~~~~~~~~~~~\n"
   ; "\n"
   ]
 ;;
@@ -31,7 +33,7 @@ let info t =
 let to_list t =
   let top_row = info t in
   let playing_field = Playingfield.to_list t.playing_field in
-  let bottom_row = [ "*** Placeholder ***\n\n" ] in
+  let bottom_row = [ "\n"; "-------------\n" ] in
   top_row @ playing_field @ bottom_row
 ;;
 
