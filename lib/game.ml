@@ -88,7 +88,7 @@ let check_diagonals_for_winner t =
   let open Player in
   let left_upper_coord = from_int 1 1
   and left_lower_coord = from_int 1 3
-  and right_upper_coord = from_int 1 3
+  and right_upper_coord = from_int 3 1
   and right_lower_coord = from_int 3 3
   and middle_coord = from_int 2 2
   and playingfield = t.playing_field in
