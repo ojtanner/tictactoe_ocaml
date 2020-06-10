@@ -1,4 +1,4 @@
-open Base
+open Core
 
 type row = Player.t * Player.t * Player.t
 type t = row * row * row
@@ -38,6 +38,13 @@ let assoc coord data t =
   let t_row = take row_coord t in
   let new_row = update col_coord data t_row in
   update row_coord new_row t
+
+let is_occupied coord t =
+  let open Player in
+  match view coord t with
+  | X | O -> true
+  | None -> false
+
 
 let row_to_string ((first, second, third) : row) =
   let delimiter = "|" in
