@@ -1,4 +1,4 @@
 open Tictactoe
 
 let () =
-  Cli.loop (Game.create ())
+  Cli.start (Game.create ())

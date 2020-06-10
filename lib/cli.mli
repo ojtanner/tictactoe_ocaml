@@ -1,1 +1,1 @@
-val loop : Game.t -> unit
+val start : Game.t -> unit

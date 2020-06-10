@@ -20,9 +20,7 @@ let info t =
   let open Player in
   let current_player = to_string t.current_player in
   let current_winner = to_string t.winner in
-  [ "\n"
-  ; "** Turn ~: **\n"
-  ; "-------------\n"
+  [ "-------------\n"
   ; sprintf "| Player: %s |\n" current_player
   ; sprintf "| Winner: %s |\n" current_winner
   ; "~~~~~~~~~~~~~\n"
@@ -130,13 +128,17 @@ let execute_turn t coord =
   let open Player in
   let winner = t.winner in
   if not (equal winner None)
-  then t
+  then Error "Game ended"
   else (
     let current_player = t.current_player in
     let playing_field = t.playing_field in
-    let updated_playing_field = assoc coord current_player playing_field in
-    let t = { t with playing_field = updated_playing_field } in
-    let winner = determine_winner t in
-    let t = { t with winner } in
-    switch_player t)
+    match is_occupied coord playing_field with
+    | true -> Error "Field occupied"
+    | false ->
+      let updated_playing_field = assoc coord current_player playing_field in
+      let t = { t with playing_field = updated_playing_field } in
+      let winner = determine_winner t in
+      let t = { t with winner } in
+      let t = switch_player t in
+      Ok t)
 ;;
