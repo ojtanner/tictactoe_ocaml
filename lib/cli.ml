@@ -6,8 +6,9 @@ let render_message ?(padding = 1) message =
 ;;
 
 let render_error ?(padding = 1) message =
-  ["\n"; ">> " ^ message ^ " <<"; "\n"]
+  [ "\n"; ">> " ^ message ^ " <<"; "\n" ]
   |> List.iter ~f:(fun str -> render_message ~padding str)
+;;
 
 let generate_turn_info turn = [ "\n"; "** Turn  " ^ Int.to_string turn ^ " **\n" ]
 
@@ -26,34 +27,33 @@ let execute_turn game_state =
   let player = get_current_player game_state in
   let message = to_string player ^ " mark : " in
   render_message message;
-  (match In_channel.input_line In_channel.stdin with
-   | None ->
-     let message = "No value entered. Try again\n" in
-     Error message
-   | Some line ->
-     (try
-        line
-        |> String.strip
-        |> String.split ~on:' '
-        |> List.map ~f:(fun el -> Int.of_string el)
-        |> fun coords ->
-        match coords with
-        | x :: y :: _ ->
-          let turn_coords = from_int x y in
-          (match turn_coords with
-           | Ok coord ->
-             execute_turn game_state coord
-           | Error msg ->
-             let message = sprintf "%s" msg in
-             Error message)
-        | _ ->
-          let message = sprintf "Please enter two spaced out integers\n" in
-          Error message
-      with
-      | Failure _ ->
-        let message = "Please enter two spaced out integers\n" in
-        Error message))
-
+  match In_channel.input_line In_channel.stdin with
+  | None ->
+    let message = "No value entered. Try again\n" in
+    Error message
+  | Some line ->
+    (try
+       line
+       |> String.strip
+       |> String.split ~on:' '
+       |> List.map ~f:(fun el -> Int.of_string el)
+       |> fun coords ->
+       match coords with
+       | x :: y :: _ ->
+         let turn_coords = from_int x y in
+         (match turn_coords with
+         | Ok coord -> execute_turn game_state coord
+         | Error msg ->
+           let message = sprintf "%s" msg in
+           Error message)
+       | _ ->
+         let message = sprintf "Please enter two spaced out integers\n" in
+         Error message
+     with
+    | Failure _ ->
+      let message = "Please enter two spaced out integers\n" in
+      Error message)
+;;
 
 let start game_state =
   let open Player in
@@ -64,11 +64,11 @@ let start game_state =
       let message = sprintf "%s won. Congratulations!\n\n" (to_string winner) in
       render_message message
     | None ->
-      match execute_turn game_state with
+      (match execute_turn game_state with
       | Ok game_state -> go game_state (turn + 1)
       | Error message ->
         render_error message;
-        go game_state turn
+        go game_state turn)
   in
   go game_state 1
 ;;

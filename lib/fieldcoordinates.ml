@@ -1,6 +1,10 @@
 open Core
 
-type n = | First | Second | Third
+type n =
+  | First
+  | Second
+  | Third
+
 type t = n * n
 
 (* This is a hack. Not sure how to exactly specify 1 - 3. Maybe exn *)
@@ -9,6 +13,7 @@ let int_to_n num =
   | 1 -> First
   | 2 -> Second
   | 3 | _ -> Third
+;;
 
 let from_int x y =
   let x_error =
@@ -28,9 +33,11 @@ let from_int x y =
 ;;
 
 let get_col t =
-  let (first, _) = t in
+  let first, _ = t in
   first
+;;
 
 let get_row t =
-  let (_, second) = t in
+  let _, second = t in
   second
+;;

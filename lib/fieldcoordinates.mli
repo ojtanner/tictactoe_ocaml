@@ -1,5 +1,9 @@
 type t
-type n = | First | Second | Third
+
+type n =
+  | First
+  | Second
+  | Third
 
 val from_int : int -> int -> (t, string) result
 val get_col : t -> n

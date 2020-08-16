@@ -15,13 +15,15 @@ let take n (first, second, third) =
   | First -> first
   | Second -> second
   | Third -> third
+;;
 
 let update n data (first, second, third) =
   let open Fieldcoordinates in
   match n with
-  | First -> (data, second, third)
-  | Second -> (first, data, third)
-  | Third -> (first, second, data)
+  | First -> data, second, third
+  | Second -> first, data, third
+  | Third -> first, second, data
+;;
 
 let view coord t =
   let open Fieldcoordinates in
@@ -30,6 +32,7 @@ let view coord t =
   let t_row = take row_coord t in
   let t_col = take col_coord t_row in
   t_col
+;;
 
 let assoc coord data t =
   let open Fieldcoordinates in
@@ -38,13 +41,14 @@ let assoc coord data t =
   let t_row = take row_coord t in
   let new_row = update col_coord data t_row in
   update row_coord new_row t
+;;
 
 let is_occupied coord t =
   let open Player in
   match view coord t with
   | X | O -> true
   | None -> false
-
+;;
 
 let row_to_string ((first, second, third) : row) =
   let delimiter = "|" in
